@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campus Lost &amp; Found</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#edf1f6;--surf:#fff;--ink:#12203a;--mute:#5b6a84;--line:#d3dbe7;--tag:#ffc93c;--tagink:#3a2c00;--ok:#0f8a5f;--okbg:#dff5ec;--lost:#d6402f;--lostbg:#fde6e2;--found:#1e6bd6;--foundbg:#e1ecfd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0e1626;--surf:#162238;--ink:#e8eefb;--mute:#9aa9c6;--line:#2a3a58;--tag:#ffc93c;--tagink:#3a2c00;--ok:#4fd6a0;--okbg:#12362b;--lost:#ff8b7c;--lostbg:#3b1d1a;--found:#7db1ff;--foundbg:#172b4d}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0e1626;--surf:#162238;--ink:#e8eefb;--mute:#9aa9c6;--line:#2a3a58;--ok:#4fd6a0;--okbg:#12362b;--lost:#ff8b7c;--lostbg:#3b1d1a;--found:#7db1ff;--foundbg:#172b4d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+.wrap{max-width:1040px;margin:0 auto;padding:18px 16px 60px}
+header{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+h1{font-size:clamp(28px,6vw,44px);font-weight:800;line-height:1}
+h1 span{background:var(--tag);color:var(--tagink);padding:0 .22em;border-radius:6px;display:inline-block;transform:rotate(-1.5deg)}
+.sub{color:var(--mute);margin:6px 0 0;max-width:46ch}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:6px 12px;min-width:78px}
+.stat b{display:block;font:800 20px "Bricolage Grotesque",sans-serif}.stat small{color:var(--mute)}
+nav{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:16px;overflow-x:auto}
+nav button{border:0;background:none;color:var(--mute);font:600 15px inherit;font-family:inherit;padding:10px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+nav button[aria-selected=true]{color:var(--ink);border-color:var(--tag)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--found);outline-offset:2px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
+.bar input{flex:2 1 200px;width:auto}.bar select{flex:1 1 130px;width:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card .ph{height:120px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:44px}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .bd{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:17px}
+.meta{color:var(--mute);font-size:13px}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px}
+.chip.lost{background:var(--lostbg);color:var(--lost)}.chip.found{background:var(--foundbg);color:var(--found)}.chip.done{background:var(--okbg);color:var(--ok)}
+.btn{border:0;border-radius:8px;padding:9px 14px;font:600 14px inherit;font-family:inherit;cursor:pointer;background:var(--ink);color:var(--bg)}
+.btn.tag{background:var(--tag);color:var(--tagink)}.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+form{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px;grid-template-columns:1fr 1fr}
+form .full{grid-column:1/-1}
+label{font-weight:600;font-size:13px;display:block;margin-bottom:4px}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;border:0;background:none;color:var(--mute);font:600 14px inherit;font-family:inherit;padding:10px;cursor:pointer}
+.seg button[aria-pressed=true].l{background:var(--lostbg);color:var(--lost)}
+.seg button[aria-pressed=true].f{background:var(--foundbg);color:var(--found)}
+.hint{font-size:12px;color:var(--mute)}
+.pair{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.pair h3{font-size:16px;margin-bottom:8px}
+.m{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px dashed var(--line)}
+.m .sc{font:800 22px "Bricolage Grotesque",sans-serif;text-align:center}
+.bars{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.bars span{font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--mute)}
+.sc.hi{color:var(--ok)}.sc.mid{color:#b57a00}.sc.lo{color:var(--mute)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;z-index:20;max-width:90vw}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--surf);color:var(--ink);max-width:440px;width:92vw;padding:18px}
+dialog::backdrop{background:rgba(5,10,20,.55)}
+.empty{text-align:center;color:var(--mute);padding:36px 10px;background:var(--surf);border:1px dashed var(--line);border-radius:12px}
+.map{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--line)}
+.land{fill:var(--surf)}.walk{stroke:var(--line);stroke-width:10;stroke-linecap:round}
+.rt{fill:none;stroke:var(--found);stroke-width:6;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:12 9}
+.bld{cursor:pointer;outline:none}.bld rect{fill:var(--bg);stroke:var(--line);stroke-width:2}
+.bld text{fill:var(--ink);font:600 11px "IBM Plex Sans",sans-serif;text-anchor:middle;pointer-events:none}
+.bld:hover rect,.bld.on rect,.bld:focus-visible rect{stroke:var(--found);stroke-width:3;fill:var(--foundbg)}
+.pinL{fill:var(--lost)}.pinF{fill:var(--found)}.pin text{fill:var(--surf);font:800 11px sans-serif;text-anchor:middle}
+.me circle{fill:var(--ok);stroke:var(--surf);stroke-width:2}.me text{fill:var(--ok);font:800 11px sans-serif;text-anchor:middle}
+.steps{margin:6px 0 0;padding-left:20px}.steps li{margin:3px 0}
+.cb{display:flex;gap:8px;align-items:center}.cb input{width:auto}
+@media(max-width:560px){form{grid-template-columns:1fr}.m{grid-template-columns:52px 1fr}.m .row{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+ <div><h1>Campus <span>Lost &amp; Found</span></h1><p class="sub">Report what you lost or found. Matching reads descriptions, places and dates, then ranks likely pairs.</p></div>
+ <div class="stats" id="stats"></div><button class="btn ghost" data-act="theme" aria-label="Switch light or dark theme">◐ Theme</button>
+</header>
+<nav role="tablist" id="nav">
+ <button role="tab" data-v="board" aria-selected="true">Board</button>
+ <button role="tab" data-v="report" aria-selected="false">Report an item</button>
+ <button role="tab" data-v="map" aria-selected="false">Campus map</button>
+ <button role="tab" data-v="matches" aria-selected="false">Match center</button>
+ <button role="tab" data-v="desk" aria-selected="false">Help desk</button>
+</nav>
+<main id="view"></main>
+</div>
+<dialog id="dlg"></dialog>
+<script>
+"use strict";
+var CATS={bag:"🎒",electronics:"📱",keys:"🔑",id:"🪪",wallet:"👛",clothing:"🧥",bottle:"🥤",books:"📚",stationery:"✏️",glasses:"👓",umbrella:"☂️",sports:"⚽",jewelry:"💍",other:"📦"};
+var LOCS=["Main Library","Science Block","Engineering Hall","Student Union","Cafeteria","Sports Complex","Hostel Block A","Hostel Block B","Admin Building","Bus Stop / Gate 1","Auditorium","Computer Lab","Parking Lot"];
+var PT={"Bus Stop / Gate 1":[70,425],"Parking Lot":[60,320],"Admin Building":[250,385],"Main Library":[410,340],"Student Union":[480,215],"Cafeteria":[340,205],"Engineering Hall":[190,215],"Computer Lab":[60,215],"Science Block":[110,90],"Auditorium":[290,80],"Sports Complex":[600,90],"Hostel Block A":[610,250],"Hostel Block B":[620,385]};
+var EDGES=[["Bus Stop / Gate 1","Parking Lot"],["Bus Stop / Gate 1","Admin Building"],["Admin Building","Main Library"],["Admin Building","Engineering Hall"],["Parking Lot","Computer Lab"],["Computer Lab","Engineering Hall"],["Main Library","Student Union"],["Main Library","Cafeteria"],["Cafeteria","Student Union"],["Cafeteria","Engineering Hall"],["Engineering Hall","Science Block"],["Science Block","Auditorium"],["Auditorium","Cafeteria"],["Student Union","Hostel Block A"],["Hostel Block A","Sports Complex"],["Hostel Block A","Hostel Block B"],["Student Union","Sports Complex"]];
+var NEAR={"Main Library":["Admin Building","Student Union"],"Science Block":["Engineering Hall","Auditorium"],"Engineering Hall":["Science Block","Cafeteria"],"Student Union":["Cafeteria","Main Library"],"Cafeteria":["Student Union","Engineering Hall"],"Sports Complex":["Hostel Block A","Hostel Block B"],"Hostel Block A":["Hostel Block B","Sports Complex"],"Hostel Block B":["Hostel Block A","Sports Complex"],"Admin Building":["Main Library","Bus Stop / Gate 1"],"Bus Stop / Gate 1":["Admin Building"],"Auditorium":["Science Block","Admin Building"],"Computer Lab":["Engineering Hall"],"Parking Lot":["Bus Stop / Gate 1"]};
+var SYN={backpack:"bag",rucksack:"bag",bagpack:"bag",satchel:"bag",handbag:"bag",purse:"wallet",phone:"mobile",smartphone:"mobile",iphone:"mobile",android:"mobile",earbuds:"airpods",earphones:"airpods",headphones:"airpods",airpod:"airpods",laptop:"computer",macbook:"computer",notebook:"book",textbook:"book",diary:"book",jacket:"coat",hoodie:"coat",sweater:"coat",flask:"bottle",tumbler:"bottle",thermos:"bottle",card:"id",identity:"id",lanyard:"id",spectacles:"glasses",specs:"glasses",eyeglasses:"glasses",calculator:"calc",umbrella:"umbrella",keychain:"keys",key:"keys",fob:"keys",charger:"cable",adapter:"cable",ring:"jewelry",watch:"jewelry",bracelet:"jewelry",necklace:"jewelry",grey:"gray",navy:"blue",maroon:"red",crimson:"red",violet:"purple"};
+var STOP="a an the of in on at is it my i was to and with has have lost found near some small big left this that very one for from or".split(" ");
+var COLORS="black white red blue green yellow gray purple pink orange brown silver gold".split(" ");
+var DB=[],MAXPHOTO=240;
+
+function load(){try{var r=localStorage.getItem("clf.items");if(r)return JSON.parse(r)}catch(e){}return null}
+function save(){try{localStorage.setItem("clf.items",JSON.stringify(DB))}catch(e){}}
+function daysAgo(n){var d=new Date();d.setDate(d.getDate()-n);return d.toISOString().slice(0,10)}
+function seed(){return[
+{id:1,type:"lost",title:"Black Wildcraft backpack",cat:"bag",desc:"Black rucksack with a red zip and a physics notebook inside, name tag says R. Singh",loc:"Main Library",date:daysAgo(3),contact:"ravi@campus.edu",status:"open"},
+{id:2,type:"found",title:"Dark backpack with red zipper",cat:"bag",desc:"Black bagpack left on 2nd floor desk, contains a notebook and a pen box",loc:"Main Library",date:daysAgo(2),contact:"Help desk",status:"open",q:"What colour is the zipper?",a:"red"},
+{id:3,type:"lost",title:"AirPods case, white",cat:"electronics",desc:"White earbuds charging case with a small scratch and a blue sticker",loc:"Cafeteria",date:daysAgo(5),contact:"meera@campus.edu",status:"open"},
+{id:4,type:"found",title:"Earphones charging case",cat:"electronics",desc:"White airpod case with blue sticker found on a cafeteria table",loc:"Student Union",date:daysAgo(4),contact:"Help desk",status:"open",q:"What is stuck on the case?",a:"blue sticker"},
+{id:5,type:"found",title:"Student ID card, Mechanical dept",cat:"id",desc:"ID card with lanyard, green strap, found on the Engineering Hall steps",loc:"Engineering Hall",date:daysAgo(1),contact:"Help desk",status:"open",q:"Which department is on the card?",a:"mechanical"},
+{id:6,type:"lost",title:"Steel water bottle",cat:"bottle",desc:"Silver flask bottle with dents, Milton brand, left after a match",loc:"Sports Complex",date:daysAgo(6),contact:"arjun@campus.edu",status:"open"},
+{id:7,type:"found",title:"Set of keys with blue tag",cat:"keys",desc:"Three keys on a ring with a blue tag and a small bottle opener",loc:"Hostel Block A",date:daysAgo(2),contact:"Help desk",status:"open",q:"What is on the key ring besides keys?",a:"bottle opener"},
+{id:8,type:"lost",title:"Casio scientific calculator",cat:"electronics",desc:"Grey calculator fx-991, name scratched on the back",loc:"Science Block",date:daysAgo(2),contact:"sana@campus.edu",status:"open"}]}
+
+function norm(w){w=w.toLowerCase().replace(/[^a-z0-9]/g,"");if(w.length>4)w=w.replace(/(ing|ed|es|s)$/,"");return SYN[w]||w}
+function toks(t){return t.split(/\s+/).map(norm).filter(function(w){return w.length>1&&STOP.indexOf(w)<0})}
+function vec(it){var f={},t=toks(it.title+" "+it.title+" "+it.desc+" "+it.cat);t.forEach(function(w){f[w]=(f[w]||0)+1});return f}
+function idf(){var n=DB.length||1,df={};DB.forEach(function(it){Object.keys(vec(it)).forEach(function(w){df[w]=(df[w]||0)+1})});return function(w){return Math.log(1+n/(df[w]||1))}}
+function cos(a,b,I){var d=0,na=0,nb=0,k;for(k in a){na+=Math.pow(a[k]*I(k),2);if(b[k])d+=a[k]*b[k]*I(k)*I(k)}for(k in b)nb+=Math.pow(b[k]*I(k),2);return na&&nb?d/Math.sqrt(na*nb):0}
+function score(l,f,I){
+ var why=[],t=cos(vec(l),vec(f),I),s=0;
+ var tp=Math.min(1,t*1.6);s+=tp*50;if(tp>.25)why.push("Description overlap "+Math.round(tp*100)+"%");
+ if(l.cat===f.cat){s+=18;why.push("Same category")}else if(l.cat==="other"||f.cat==="other")s+=5;
+ if(l.loc===f.loc){s+=17;why.push("Same place")}else if((NEAR[l.loc]||[]).indexOf(f.loc)>=0||(NEAR[f.loc]||[]).indexOf(l.loc)>=0){s+=10;why.push("Nearby place")}
+ var gap=(new Date(f.date)-new Date(l.date))/864e5;
+ if(gap>=-1&&gap<=14){s+=10*(1-Math.max(0,gap)/16);why.push(gap<=1?"Found right after loss":"Found "+Math.round(Math.max(0,gap))+" days after")}
+ var tl=toks(l.title+" "+l.desc),tf=toks(f.title+" "+f.desc),cs=COLORS.filter(function(c){return tl.indexOf(c)>=0&&tf.indexOf(c)>=0});
+ if(cs.length){s+=5;why.push("Colour: "+cs.join(", "))}
+ return{s:Math.min(99,Math.round(s)),why:why}}
+function matchesFor(it){var I=idf(),other=it.type==="lost"?"found":"lost";
+ return DB.filter(function(o){return o.type===other&&o.status==="open"}).map(function(o){var r=it.type==="lost"?score(it,o,I):score(o,it,I);return{item:o,s:r.s,why:r.why}}).sort(function(a,b){return b.s-a.s})}
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function fmt(d){return new Date(d+"T00:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short"})}
+function thumb(it){return'<div class="ph">'+(it.img?'<img alt="" src="'+it.img+'">':CATS[it.cat]||"📦")+'</div>'}
+function toast(m){var t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2600)}
+var view="board",F={q:"",t:"all",c:"all",p:"all",st:"open",s:"new"},rtype="lost",photo="",M={from:"Bus Stop / Gate 1",to:"",sel:""};
+
+function stats(){var o=DB.filter(function(i){return i.status==="open"});var r=DB.filter(function(i){return i.status==="returned"}).length;
+ var best=0;DB.filter(function(i){return i.type==="lost"&&i.status==="open"}).forEach(function(l){var m=matchesFor(l)[0];if(m&&m.s>=60)best++});
+ document.getElementById("stats").innerHTML='<div class="stat"><b>'+o.filter(function(i){return i.type==="lost"}).length+'</b><small>Lost open</small></div><div class="stat"><b>'+o.filter(function(i){return i.type==="found"}).length+'</b><small>Found open</small></div><div class="stat"><b>'+best+'</b><small>Likely matches</small></div><div class="stat"><b>'+r+'</b><small>Returned</small></div>'}
+
+function itemCard(it){
+ var chip=it.status==="returned"?'<span class="chip done">Returned</span>':'<span class="chip '+it.type+'">'+(it.type==="lost"?"Lost":"Found")+'</span>';
+ var acts=it.status==="returned"?"":'<button class="btn ghost" data-act="matches" data-id="'+it.id+'">Find matches</button>'+(it.type==="found"?'<button class="btn tag" data-act="claim" data-id="'+it.id+'">This is mine</button>':'<button class="btn ghost" data-act="contact" data-id="'+it.id+'">Contact</button>');
+ return'<article class="card">'+thumb(it)+'<div class="bd"><div>'+chip+(it.urgent?' <span class="chip lost">Urgent</span>':'')+'</div><h3>'+esc(it.title)+'</h3><div class="meta">'+esc(it.loc)+' · '+fmt(it.date)+'</div><div>'+esc(it.desc)+'</div><div class="row">'+acts+'<button class="btn ghost" data-act="map" data-loc="'+esc(it.loc)+'">📍 Map</button></div></div></article>'}
+
+function renderBoard(){
+ var list=DB.filter(function(i){return(F.t==="all"||i.type===F.t)&&(F.c==="all"||i.cat===F.c)&&(F.st==="all"||i.status===F.st)&&(F.p==="all"||i.loc===F.p)&&(!F.q||(i.title+" "+i.desc+" "+i.loc).toLowerCase().indexOf(F.q.toLowerCase())>=0)}).sort(function(a,b){return(b.urgent?1:0)-(a.urgent?1:0)||(F.s==="old"?(a.date<b.date?-1:1):(b.date<a.date?-1:1))});
+ var h='<div class="bar"><input id="q" type="search" placeholder="Search items, places, colours" value="'+esc(F.q)+'" aria-label="Search"><select id="t" aria-label="Type"><option value="all">Lost and found</option><option value="lost">Lost only</option><option value="found">Found only</option></select><select id="c" aria-label="Category"><option value="all">All categories</option>'+Object.keys(CATS).map(function(c){return'<option value="'+c+'">'+c+'</option>'}).join("")+'</select><select id="p" aria-label="Place"><option value="all">Any place</option>'+LOCS.map(function(c){return'<option>'+c+'</option>'}).join("")+'</select><select id="st" aria-label="Status"><option value="open">Open items</option><option value="returned">Returned</option><option value="all">All statuses</option></select><select id="s" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option></select></div>';
+ h+=list.length?'<div class="grid">'+list.map(itemCard).join("")+'</div>':'<div class="empty">No items match. Try fewer words, or report this item.</div>';
+ return h}
+
+function renderReport(){
+ return'<form id="rf"><div class="full"><div class="seg"><button type="button" class="l" data-rt="lost" aria-pressed="'+(rtype==="lost")+'">I lost something</button><button type="button" class="f" data-rt="found" aria-pressed="'+(rtype==="found")+'">I found something</button></div></div>'+
+ '<div><label for="ti">Item name</label><input id="ti" required maxlength="60" placeholder="e.g. Blue Boat earphones"></div>'+
+ '<div><label for="ca">Category</label><select id="ca">'+Object.keys(CATS).map(function(c){return'<option>'+c+'</option>'}).join("")+'</select></div>'+
+ '<div class="full"><label for="de">Description</label><textarea id="de" rows="3" required placeholder="Colour, brand, marks, what is inside"></textarea></div>'+
+ '<div><label for="lo">Place</label><select id="lo">'+LOCS.map(function(c){return'<option>'+c+'</option>'}).join("")+'</select></div>'+
+ '<div><label for="da">Date</label><input id="da" type="date" required value="'+daysAgo(0)+'" max="'+daysAgo(0)+'"></div>'+
+ '<div class="full"><label>Or tap the place on the map</label>'+mapSVG({pick:true})+'</div><div><label for="cl">Main colour</label><select id="cl"><option value="">Not sure</option>'+COLORS.map(function(c){return'<option>'+c+'</option>'}).join("")+'</select></div><div><label for="br">Brand or model</label><input id="br" maxlength="40" placeholder="e.g. Wildcraft, fx-991"></div><div class="full cb"><input type="checkbox" id="ur"><label for="ur" style="margin:0">Urgent: ID, keys, medicine or exam material</label></div>'+'<div><label for="co">'+(rtype==="lost"?"Your email or phone":"Where it is kept")+'</label><input id="co" required placeholder="'+(rtype==="lost"?"you@campus.edu":"With me / Help desk")+'"></div>'+
+ '<div><label for="ph">Photo (optional)</label><input id="ph" type="file" accept="image/*"></div>'+
+ (rtype==="found"?'<div class="full hint">Add a private question only the owner can answer. It is checked before contact details are shared.</div><div><label for="vq">Verification question</label><input id="vq" placeholder="What is inside the bag?"></div><div><label for="va">Correct answer</label><input id="va" placeholder="Short answer"></div>':'')+
+ '<div class="full"><button class="btn tag" type="submit">Submit '+rtype+' report</button></div></form>'}
+
+function renderMatches(){
+ var lost=DB.filter(function(i){return i.type==="lost"&&i.status==="open"});
+ if(!lost.length)return'<div class="empty">No open lost reports. Matches appear here once someone reports a loss.</div>';
+ return lost.map(function(l){var ms=matchesFor(l).filter(function(m){return m.s>=25}).slice(0,3);
+  return'<section class="pair"><h3>'+CATS[l.cat]+' '+esc(l.title)+' <span class="meta">· lost at '+esc(l.loc)+', '+fmt(l.date)+'</span></h3>'+(ms.length?ms.map(function(m){var cl=m.s>=65?"hi":m.s>=45?"mid":"lo";
+   return'<div class="m"><div class="sc '+cl+'">'+m.s+'%</div><div><b>'+esc(m.item.title)+'</b><div class="meta">Found at '+esc(m.item.loc)+', '+fmt(m.item.date)+'</div><div class="bars">'+m.why.map(function(w){return'<span>'+esc(w)+'</span>'}).join("")+'</div></div><div class="row"><button class="btn tag" data-act="claim" data-id="'+m.item.id+'">Verify</button><button class="btn ghost" data-act="map" data-loc="'+esc(m.item.loc)+'">📍 Map</button></div></div>'}).join(""):'<div class="meta">No close matches yet. New found reports are checked automatically.</div>')+'</section>'}).join("")}
+
+function renderDesk(){
+ var found=DB.filter(function(i){return i.type==="found"&&i.status==="open"});
+ return'<p class="hint">Staff view: items in custody. Mark an item returned after checking ID.</p>'+(found.length?'<div class="grid">'+found.map(function(it){return'<article class="card"><div class="bd"><h3>'+esc(it.title)+'</h3><div class="meta">'+esc(it.loc)+' · '+fmt(it.date)+' · '+esc(it.contact)+'</div>'+(it.q?'<div class="hint">Check: '+esc(it.q)+' → <b>'+esc(it.a)+'</b></div>':'')+'<div class="row"><button class="btn" data-act="return" data-id="'+it.id+'">Mark returned</button><button class="btn ghost" data-act="del" data-id="'+it.id+'">Remove</button></div></div></article>'}).join("")+'</div>':'<div class="empty">Nothing in custody.</div>')+'<div class="row"><button class="btn ghost" data-act="reset">Reset demo data</button></div>'}
+
+function render(){
+ document.querySelectorAll("#nav button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.v===view)});
+ var v=document.getElementById("view");
+ v.innerHTML={board:renderBoard,report:renderReport,map:renderMap,matches:renderMatches,desk:renderDesk}[view]();
+ if(view==="board"){["t","c","p","st","s"].forEach(function(k){document.getElementById(k).value=F[k]})}
+ if(view==="report")hl(document.getElementById("lo").value);
+ stats()}
+
+/* ---- campus map and navigation ---- */
+var ADJ=null;
+function dist(a,b){var p=PT[a],q=PT[b];return Math.round(Math.hypot(p[0]-q[0],p[1]-q[1])*1.6)}
+function adj(){if(ADJ)return ADJ;ADJ={};LOCS.forEach(function(l){ADJ[l]=[]});EDGES.forEach(function(e){var d=dist(e[0],e[1]);ADJ[e[0]].push([e[1],d]);ADJ[e[1]].push([e[0],d])});return ADJ}
+function route(a,b){var A=adj(),D={},P={},Q=LOCS.slice();LOCS.forEach(function(l){D[l]=1e9});D[a]=0;
+ while(Q.length){Q.sort(function(x,y){return D[x]-D[y]});var u=Q.shift();if(u===b||D[u]>=1e9)break;A[u].forEach(function(n){if(D[u]+n[1]<D[n[0]]){D[n[0]]=D[u]+n[1];P[n[0]]=u}})}
+ var path=[b];while(path[0]!==a&&P[path[0]])path.unshift(P[path[0]]);return{path:path,m:D[b]}}
+function hl(loc){document.querySelectorAll('svg[data-mode=pick] g[data-loc]').forEach(function(g){g.classList.toggle('on',g.dataset.loc===loc)})}
+function opts(sel){return LOCS.map(function(l){return'<option'+(l===sel?' selected':'')+'>'+esc(l)+'</option>'}).join('')}
+function mapSVG(o){o=o||{};var pick=o.pick,h='<svg class="map" data-mode="'+(pick?'pick':'view')+'" viewBox="0 0 700 470" role="group" aria-label="Campus map"><rect class="land" width="700" height="470"/>';
+ EDGES.forEach(function(e){var a=PT[e[0]],b=PT[e[1]];h+='<line class="walk" x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'"/>'});
+ if(o.route&&o.route.path.length>1)h+='<polyline class="rt" points="'+o.route.path.map(function(p){return PT[p].join(',')}).join(' ')+'"/>';
+ LOCS.forEach(function(l){var p=PT[l],op=DB.filter(function(i){return i.loc===l&&i.status==="open"}),ls=op.filter(function(i){return i.type==="lost"}).length,fo=op.length-ls;
+  h+='<g data-loc="'+esc(l)+'" tabindex="0" role="button" aria-label="'+esc(l)+(pick?'':', '+ls+' lost, '+fo+' found')+'" class="bld'+(!pick&&M.sel===l?' on':'')+'"><rect x="'+(p[0]-54)+'" y="'+(p[1]-20)+'" width="108" height="40" rx="8"/><text x="'+p[0]+'" y="'+(p[1]+4)+'">'+esc(l)+'</text>';
+  if(!pick){if(ls)h+='<g class="pin"><circle class="pinL" cx="'+(p[0]+54)+'" cy="'+(p[1]-20)+'" r="10"/><text x="'+(p[0]+54)+'" y="'+(p[1]-16)+'">'+ls+'</text></g>';if(fo)h+='<g class="pin"><circle class="pinF" cx="'+(p[0]-54)+'" cy="'+(p[1]-20)+'" r="10"/><text x="'+(p[0]-54)+'" y="'+(p[1]-16)+'">'+fo+'</text></g>'}
+  h+='</g>'});
+ if(!pick&&M.from){var f=PT[M.from];h+='<g class="me"><circle cx="'+f[0]+'" cy="'+(f[1]+32)+'" r="7"/><text x="'+f[0]+'" y="'+(f[1]+54)+'">You</text></g>'}
+ return h+'</svg>'}
+function renderMap(){
+ var rt=M.to&&M.from!==M.to?route(M.from,M.to):null;
+ var h='<div class="bar"><div style="flex:1 1 180px"><label for="mf">I am at</label><select id="mf">'+opts(M.from)+'</select></div><div style="flex:1 1 180px"><label for="mt">Go to</label><select id="mt"><option value="">Choose a place</option>'+opts(M.to)+'</select></div></div>';
+ h+='<div class="row" style="margin:0 0 10px"><button class="btn tag" data-act="goto" data-loc="Admin Building">Route to help desk</button><button class="btn ghost" data-act="goto" data-loc="Main Library">Library</button><button class="btn ghost" data-act="goto" data-loc="Cafeteria">Cafeteria</button></div>'+mapSVG({route:rt});
+ h+='<p class="hint">Tap a building for its items and directions. Red pins are lost reports, blue pins are found items. The help desk is in the Admin Building.</p>';
+ if(M.to){var mins=rt?Math.max(1,Math.round(rt.m/75)):0;
+  h+='<div class="pair"><h3>'+(rt?'Walk to '+esc(M.to)+': '+rt.m+' m, about '+mins+' min':'You are already at '+esc(M.to))+'</h3>';
+  if(rt)h+='<ol class="steps">'+rt.path.map(function(p,i){return i?'<li>'+esc(rt.path[i-1])+' to <b>'+esc(p)+'</b> · '+dist(rt.path[i-1],p)+' m</li>':''}).join('')+'</ol>';
+  h+='</div>';
+  var its=DB.filter(function(i){return i.loc===M.to&&i.status==="open"});
+  h+=its.length?'<div class="grid">'+its.map(itemCard).join('')+'</div>':'<div class="empty">No open items reported at '+esc(M.to)+'.</div>'}
+ return h}
+
+function byId(id){return DB.filter(function(i){return i.id==id})[0]}
+function dialog(html){var d=document.getElementById("dlg");d.innerHTML=html;d.showModal?d.showModal():d.setAttribute("open","")}
+function closeDlg(){var d=document.getElementById("dlg");d.close?d.close():d.removeAttribute("open")}
+
+function showMatches(id){var it=byId(id),ms=matchesFor(it).slice(0,4);
+ dialog('<h3>Best matches for “'+esc(it.title)+'”</h3>'+(ms.length?ms.map(function(m){return'<div class="m" style="grid-template-columns:52px 1fr"><div class="sc">'+m.s+'%</div><div><b>'+esc(m.item.title)+'</b><div class="meta">'+esc(m.item.loc)+' · '+fmt(m.item.date)+'</div><div class="bars">'+m.why.map(function(w){return'<span>'+esc(w)+'</span>'}).join("")+'</div></div></div>'}).join(""):'<p class="meta">No opposite reports to compare yet.</p>')+'<div class="row"><button class="btn ghost" data-act="close">Close</button></div>')}
+
+function claim(id){var it=byId(id);
+ dialog('<h3>Claim: '+esc(it.title)+'</h3>'+(it.q?'<p>Answer this to prove it is yours.</p><label for="ans">'+esc(it.q)+'</label><input id="ans" autocomplete="off">':'<p>No verification question was set. Staff will check your ID at pickup.</p>')+'<div class="row"><button class="btn tag" data-act="verify" data-id="'+id+'">Submit</button><button class="btn ghost" data-act="close">Cancel</button></div><p class="meta" id="vres"></p>')}
+
+function verify(id){var it=byId(id),el=document.getElementById("ans"),r=document.getElementById("vres");
+ var ok=!it.q||(el.value.trim()&&norm(el.value)===norm(it.a)||el.value.toLowerCase().indexOf(it.a.toLowerCase())>=0);
+ if(ok){r.style.color="var(--ok)";r.innerHTML="Verified. Collect from: <b>"+esc(it.contact)+"</b>. Bring your student ID. <button class=\"btn tag\" data-act=\"goto\" data-loc=\""+esc(/help desk/i.test(it.contact)?"Admin Building":it.loc)+"\">Show route</button>"}
+ else{r.style.color="var(--lost)";r.textContent="That answer does not match. Check the item details and try again."}}
+
+document.addEventListener("click",function(e){
+ var lg=e.target.closest("g[data-loc]");
+ if(lg){var loc=lg.dataset.loc;if(lg.closest("svg").dataset.mode==="pick"){document.getElementById("lo").value=loc;hl(loc)}else{M.sel=loc;M.to=loc;render()}return}
+ var n=e.target.closest("#nav button");if(n){view=n.dataset.v;render();return}
+ var rt=e.target.closest("[data-rt]");if(rt){rtype=rt.dataset.rt;render();return}
+ var b=e.target.closest("[data-act]");if(!b)return;var a=b.dataset.act,id=b.dataset.id;
+ if(a==="close")closeDlg();
+ else if(a==="map"||a==="goto"){M.to=b.dataset.loc;M.sel=M.to;view="map";closeDlg();render();window.scrollTo(0,0)}
+ else if(a==="theme"){var rt=document.documentElement,dk=rt.dataset.theme?rt.dataset.theme==="dark":window.matchMedia("(prefers-color-scheme:dark)").matches;rt.dataset.theme=dk?"light":"dark"}
+ else if(a==="matches")showMatches(id);
+ else if(a==="claim")claim(id);
+ else if(a==="verify")verify(id);
+ else if(a==="contact"){dialog('<h3>Contact reporter</h3><p>'+esc(byId(id).contact)+'</p><div class="row"><button class="btn ghost" data-act="close">Close</button></div>')}
+ else if(a==="return"){byId(id).status="returned";save();render();toast("Marked as returned")}
+ else if(a==="del"){DB=DB.filter(function(i){return i.id!=id});save();render()}
+ else if(a==="reset"){DB=seed();save();render();toast("Demo data restored")}});
+
+document.addEventListener("input",function(e){if(e.target.id==="q"){F.q=e.target.value;var p=e.target.selectionStart;render();var q=document.getElementById("q");q.focus();q.setSelectionRange(p,p)}});
+document.addEventListener("change",function(e){
+ if(e.target.id==="t"){F.t=e.target.value;render()}
+ if(e.target.id==="c"){F.c=e.target.value;render()}
+ if(e.target.id==="p"||e.target.id==="st"||e.target.id==="s"){F[e.target.id]=e.target.value;render()}
+ if(e.target.id==="lo")hl(e.target.value);
+ if(e.target.id==="mf"){M.from=e.target.value;render()}
+ if(e.target.id==="mt"){M.to=e.target.value;M.sel=M.to;render()}
+ if(e.target.id==="ph"&&e.target.files[0]){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,MAXPHOTO/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);photo=c.toDataURL("image/jpeg",.7)};im.src=r.result};r.readAsDataURL(e.target.files[0])}});
+
+document.addEventListener("submit",function(e){if(e.target.id!=="rf")return;e.preventDefault();
+ var g=function(i){var x=document.getElementById(i);return x?x.value.trim():""};
+ var it={id:Date.now(),type:rtype,title:g("ti"),cat:g("ca"),desc:g("de")+(g("cl")?". Colour "+g("cl"):"")+(g("br")?". Brand "+g("br"):""),urgent:document.getElementById("ur").checked,loc:g("lo"),date:g("da"),contact:g("co"),status:"open",img:photo};
+ if(rtype==="found"&&g("vq")){it.q=g("vq");it.a=g("va")}
+ DB.push(it);save();photo="";
+ var top=matchesFor(it)[0];
+ view="board";render();
+ if(top&&top.s>=45){showMatches(it.id);toast("Report saved. Possible match found")}else toast("Report saved. We will keep matching");
+});
+document.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("g[data-loc]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
+DB=load()||seed();render();
+</script>
+</body>
+</html>
